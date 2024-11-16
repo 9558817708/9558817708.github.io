@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forgot Password</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+
+  <!-- Medipro CSS -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <style>
+    .background {
+      position: relative;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .background::before {
+      content: '';
+      background-image: url('img/loginbackground.jpg');
+      background-position: center center;
+      background-attachment: fixed;
+      background-size: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.39; /* Set the desired opacity for the background */
+      z-index: 1; /* Place the background below the content */
+    }
+
+    .pt-5 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+      z-index: 2; /* Ensure content is above the background */
+    }
+
+    a {
+      color: black;
+    }
+
+    a:hover {
+      color: black;
+      text-decoration: none;
+    }
+
+    .otp-container {
+      display: none; /* Initially hidden */
+      margin-top: 20px; /* Space above the OTP container */
+    }
+
+    .otp-input {
+      margin-bottom: 10px; /* Space between input and button */
+    }
+  </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="loader">
+            <div class="loader-outter"></div>
+            <div class="loader-inner"></div>
+            <div class="indicator"> 
+                <svg width="16px" height="12px">
+                    <polyline id="back" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                    <polyline id="front" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <!-- End Preloader -->
+    
+    <script>
+        window.onload = function() {
+            setTimeout(function() {
+                var preloader = document.getElementById('preloader');
+                preloader.style.display = 'none'; // Hide the preloader
+            }, 500); // Adjust the delay (in milliseconds) as needed
+        };
+        
+        function showOTPInput() {
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Password validation
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
+            if (!passwordPattern.test(newPassword)) {
+                alert("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+                return;
+            }
+            
+            // Check if passwords match
+            if (newPassword !== confirmPassword) {
+                alert("Passwords do not match. Please try again.");
+                return;
+            }
+
+            // Hide the reset password form
+            document.getElementById('resetForm').style.display = 'none';
+            // Show the OTP input container
+            document.getElementById('otp-container').style.display = 'block';
+        }
+
+        function verifyOTP() {
+            const otpInput = document.getElementById('otp').value;
+            // Replace with actual OTP verification logic
+            if (otpInput === "123456") {
+                window.location.href = "login.html"; // Redirect on successful OTP verification
+            } else {
+                alert("Incorrect OTP. Please try again.");
+            }
+        }
+    </script>
+
+    <div class="background">
+        <div class="pt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5 mx-auto">
+                        <div class="card card-body" style="background-color:transparent; border-color:#2C2D3F; border-style:groove; border-width:3px;">
+                            <div class="logo" style="background-color:#1a76d1; border-radius:.25rem; margin-bottom:7px;">
+                                <img src="img/logo.png" alt="#">
+                            </div>
+                            <h4 class="text-center" style="color:black">Forgot Password</h4>
+                            <form id="resetForm" onsubmit="event.preventDefault(); showOTPInput();">
+                                <div class="form-group required">
+                                    <label for="username" style="margin-bottom:7px; color:black">Mail:</label>
+                                    <input type="text" class="form-control" id="username" required name="username" value="">
+                                </div>
+                                <div class="form-group required">
+                                    <label for="new-password" style="margin-bottom:7px; color:black">New Password:</label>
+                                    <input type="password" class="form-control" id="new-password" required name="new-password" value="">
+                                </div>
+                                <div class="form-group required">
+                                    <label for="confirm-password" style="margin-bottom:7px; color:black">Confirm New Password:</label>
+                                    <input type="password" class="form-control" id="confirm-password" required name="confirm-password" value="">
+                                </div>
+                                <div class="form-group pt-1">
+                                    <button class="btn btn-primary btn-block" type="submit">Send OTP</button>
+                                </div>
+                            </form>
+                            
+                            <div id="otp-container" class="otp-container text-center">
+                                <input type="text" id="otp" class="form-control otp-input" placeholder="Enter OTP" required>
+                                <button class="btn btn-success btn-block" onclick="verifyOTP()">Verify OTP</button>
+                            </div>
+
+                            <div class="text-center" style="margin-top: 10px;">
+                                <a href="login.html">Back to Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
